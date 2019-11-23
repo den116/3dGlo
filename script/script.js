@@ -101,7 +101,7 @@ window.addEventListener('DOMContentLoaded', function() {
           step += 0.05;
           popup.style.opacity = `${step}`;
           popupOpenShow(step);
-        }
+        } 
 
       });      
     };
@@ -111,9 +111,16 @@ window.addEventListener('DOMContentLoaded', function() {
       requestAnimationFrame(() => {
 
         if (step > 0) {
-          step += (0.05 + '').substr(0, 4) * -1;
+          if (step > 0.05) {
+            step -= 0.05;
+          } else {
+            step = 0;
+          }
+          
           popup.style.opacity = `${step}`;
           popupCloseShow(step);
+        } else if (step === 0) {
+          popup.style.display = 'none';
         }
 
       });  
