@@ -56,11 +56,12 @@ window.addEventListener('DOMContentLoaded', function() {
           menuItems = menu.querySelectorAll('ul>li');
     
     const handlerMenu = () => {
-      if (!menu.style.transform || menu.style.transform === `translateX(-100%)`) {
-        menu.style.transform = `translate(0)`;
-      } else {
-        menu.style.transform = `translateX(-100%)`;
-      }
+      // if (!menu.style.transform || menu.style.transform === `translateX(-100%)`) {
+      //   menu.style.transform = `translate(0)`;
+      // } else {
+      //   menu.style.transform = `translateX(-100%)`;
+      // }
+      menu.classList.toggle('active-menu');
     };
 
     btnMenu.addEventListener('click', handlerMenu);
@@ -82,42 +83,40 @@ window.addEventListener('DOMContentLoaded', function() {
     popupBtn.forEach((item) => {
       item.addEventListener('click', () => {
         popup.style.display = 'block';
-        // if (widthWindow > 768) {
-        //   popupOpenShow();
-        // }
-        popupOpenShow();
+        if (widthWindow > 768) {
+          popupOpenShow(0);
+        }
       });
     });
 
     popupClose.addEventListener('click', () => {
-      popupCloseShow();
+      popupCloseShow(1);
     }); 
 
-    let step1 = 0;
-    const popupOpenShow = () => {
-      
-      step1 += 0.05;
-      popup.style.opacity = `${step1}`; 
-      
-      if (step1 < 1) {
-        setTimeout(popupOpenShow, 20);
-      }      
+    const popupOpenShow = (step) => {
+
+      requestAnimationFrame(() => {
+
+        if (step < 1) {
+          step += 0.05;
+          popup.style.opacity = `${step}`;
+          popupOpenShow(step);
+        }
+
+      });      
     };
 
+    const popupCloseShow = (step) => {
 
-    let step2 = 1;
-    const popupCloseShow = () => {
-      
-      step2 -= 0.05;
-      popup.style.opacity = `${step2}`; 
-        
-      if (step2 > 0) {
-        setTimeout(popupCloseShow, 20);
-      } else if (step2 === 0) {
-        clearTimeout(popupCloseShow);
-        popup.style.display = 'none';
-      }
-      
+      requestAnimationFrame(() => {
+
+        if (step > 0) {
+          step += (0.05 + '').substr(0, 4) * -1;
+          popup.style.opacity = `${step}`;
+          popupCloseShow(step);
+        }
+
+      });  
     };
   };
   togglePopUp();
