@@ -58,9 +58,9 @@ window.addEventListener('DOMContentLoaded', function() {
     };
 
     btnMenu.addEventListener('click', handlerMenu);
-    menu.addEventListener('click', () => {
+    menu.addEventListener('click', (event) => {
 
-      if  (event.target.tagName === 'A' || event.target.className === 'CLOSE-BTN') {
+      if  (event.target.tagName === 'A' || event.target.classList.contains('close-btn')) {
         handlerMenu();
       }
 
@@ -285,4 +285,40 @@ window.addEventListener('DOMContentLoaded', function() {
   };
   slider();
 
+  // Замена фото в блоке "Наши сотрудники" 
+  const replaceImg = () => {
+
+    let img = document.querySelectorAll('.command__photo');
+
+    img.forEach((elem) => {
+      let src = elem.getAttribute('src');
+
+      elem.addEventListener('mouseenter', (e) => {
+        event.target.src = event.target.dataset.img;
+      });
+
+      elem.addEventListener('mouseleave', (e) => {
+        event.target.src = src;
+      });
+
+    });
+
+    
+
+  };
+  replaceImg();
+
+  // Валидация калькулятора
+  const calcValidate = () => {
+
+    let inputs = document.querySelectorAll('.calc-item');
+
+    inputs.forEach((elem) => {
+      elem.addEventListener('input', () => {
+        elem.value = elem.value.replace(/\D/g, '');
+      });
+    });
+
+  };
+  calcValidate();
 });
