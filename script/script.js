@@ -44,7 +44,7 @@ window.addEventListener('DOMContentLoaded', function() {
     let timerId = setInterval(updateClock, 1000);
       
   };
-  timerCount('20 november 2019 23:40:00');
+  timerCount('01 January 2020 00:00:00');
 
 
   // Меню
@@ -292,7 +292,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
     img.forEach((elem) => {
       let src = elem.getAttribute('src');
-
+          
       elem.addEventListener('mouseenter', (e) => {
         event.target.src = event.target.dataset.img;
       });
@@ -304,6 +304,15 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 
     
+    
+    // const change = (step) => {
+    //   requestAnimationFrame(() => {
+    //     if (step < 10) {
+    //       step++;
+
+    //     }
+    //   });
+    // }
 
   };
   replaceImg();
@@ -321,4 +330,58 @@ window.addEventListener('DOMContentLoaded', function() {
 
   };
   calcValidate();
+
+  // Калькулятор стоимости
+  const calc = (price = 100) => {
+    const calcBlock = document.querySelector('.calc-block'),
+          calcType = document.querySelector('.calc-type'),
+          calcSquare = document.querySelector('.calc-square'),
+          calcCount = document.querySelector('.calc-count'),
+          calcDay = document.querySelector('.calc-day'),
+          totalValue = document.getElementById('total'),
+          calcItems = document.querySelectorAll('.calc-item');
+
+    const countSum = () => {
+      let total = 0,
+          countValue = 1,
+          dayValue = 1;
+      const typeValue = calcType.options[calcType.selectedIndex].value,
+            squareValue = calcSquare.value;
+      console.log(typeValue);
+      console.log(squareValue);
+
+      if (calcCount.value > 1) {
+        countValue += (calcCount.value -1) / 10;
+      }
+
+      if (calcDay.value && calcDay.value < 5) {
+        dayValue *= 2;
+      } else if (calcDay.value && calcDay.value < 10) {
+        dayValue *= 1.5;
+      }
+
+      if (typeValue && squareValue) {
+        total = price * typeValue * squareValue * countValue * dayValue;
+      } 
+
+
+      totalValue.textContent = total;
+    };
+
+    calcBlock.addEventListener('change', (event) => {
+      const target = event.target;
+
+      calcItems.forEach((elem) => {
+        if (target === elem) {
+          countSum();
+        }
+
+      });
+
+
+
+    });
+
+  };
+  calc(100);
 });
