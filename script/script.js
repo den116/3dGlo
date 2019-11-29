@@ -319,13 +319,18 @@ window.addEventListener('DOMContentLoaded', function() {
 
   // Валидация калькулятора
   const calcValidate = () => {
+    const calcBlock = document.querySelector('.calc-block'),
+          inputs = calcBlock.querySelectorAll('input');
 
-    let inputs = document.querySelectorAll('.calc-item');
+    calcBlock.addEventListener('input', (event) => {
+      const target = event.target;
 
-    inputs.forEach((elem) => {
-      elem.addEventListener('input', () => {
-        elem.value = elem.value.replace(/\D/g, '');
+      inputs.forEach((elem) => {
+        if (elem === target) {
+          elem.value = elem.value.replace(/\D/g, '');
+        }
       });
+
     });
 
   };
@@ -364,7 +369,6 @@ window.addEventListener('DOMContentLoaded', function() {
         total = price * typeValue * squareValue * countValue * dayValue;
       } 
 
-
       totalValue.textContent = total;
     };
 
@@ -375,12 +379,10 @@ window.addEventListener('DOMContentLoaded', function() {
         if (target === elem) {
           countSum();
         }
-
       });
-
-
-
     });
+
+    
 
   };
   calc(100);
