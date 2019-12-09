@@ -401,4 +401,93 @@ window.addEventListener('DOMContentLoaded', function() {
 
   };
   calc(100);
+
+  //Send-ajax-form
+  const sendForm = () => {
+
+    const errorMassage = 'Что то пошло не так...',
+          loadMassage = 'Звгрузка...',
+          successMassage = 'Спасибо! Мы скоро с вами свяжемся.';
+
+    const forms = document.querySelectorAll('form');
+          
+
+    const statusMassage = document.createElement('div');
+    statusMassage.style.cssText = 'font-size: 2rem; color: white';
+
+    forms.forEach((form) => {
+
+      form.addEventListener('input', (event) => {
+        
+        const target = event.target,
+              inputs = form.querySelectorAll('input');
+              
+
+        inputs.forEach((elem) => {
+          
+          if( elem.classList.contains('user_name') === target) {
+
+              console.log(elem);
+              elem.value = elem.value.replace(/[A-z]\d\S/g, '');
+            
+          }
+
+        });
+
+      });
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        form.appendChild(statusMassage);
+        statusMassage.textContent = loadMassage;
+
+        const formData = new FormData(form);
+        
+        let body = {};
+      
+        formData.forEach((val, key) => {
+          body[key] = val;
+        });
+
+        postData(body, 
+          () => {
+          statusMassage.textContent = successMassage;
+          }, 
+          (error) => {
+          console.log(error);
+          statusMassage.textContent = errorMassage;
+          }
+        );
+
+        form.reset();
+  
+      });
+
+    });
+
+    const postData = (body, outputData, errorData) => {
+      const request = new XMLHttpRequest();
+      request.addEventListener('readystatechange', () => {
+
+        if (request.readyState !== 4) {
+          return;
+        }
+        if (request.status === 200) {
+          outputData();
+        } else {
+          errorData(request.status);
+        }
+
+      });
+
+      request.open('POST', './server.php');
+      request.setRequestHeader('Content-Type', 'application/json');
+
+      console.log(body)
+
+      request.send(JSON.stringify(body));
+
+    }
+  };
+  sendForm();
 });
