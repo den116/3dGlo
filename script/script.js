@@ -417,24 +417,24 @@ window.addEventListener('DOMContentLoaded', function() {
 
     forms.forEach((form) => {
 
-      form.addEventListener('input', (event) => {
+      // form.addEventListener('input', (event) => {
         
-        const target = event.target,
-              inputs = form.querySelectorAll('input');
+      //   const target = event.target,
+      //         inputs = form.querySelectorAll('input');
               
 
-        inputs.forEach((elem) => {
+      //   inputs.forEach((elem) => {
           
-          if( elem.classList.contains('user_name') === target) {
+      //     if( elem.classList.contains('form-name') === target) {
 
-              console.log(elem);
-              elem.value = elem.value.replace(/[A-z]\d\S/g, '');
+      //         console.log(elem);
+      //         elem.value = elem.value.replace(/[A-z]\d\S/g, '');
             
-          }
+      //     }
 
-        });
+      //   });
 
-      });
+      // });
 
       form.addEventListener('submit', (event) => {
         event.preventDefault();
@@ -490,4 +490,25 @@ window.addEventListener('DOMContentLoaded', function() {
     }
   };
   sendForm();
+
+  //Forms-validate
+  const formsValidate = () => {
+    const inputs = document.querySelectorAll('form input');
+
+    inputs.forEach((elem) => {
+
+      elem.addEventListener('input', () => {
+        
+        if( elem.classList.contains('form-name') || elem.classList.contains('mess')) {
+            elem.value = elem.value.replace(/[^а-я\s]+/gi, '');
+        } else if (elem.classList.contains('form-phone')) {
+          elem.value = elem.value.replace(/[^0-9\+]+/g, '');
+        }
+
+      });
+
+    });
+
+  };
+  formsValidate();
 });
