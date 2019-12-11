@@ -79,7 +79,8 @@ window.addEventListener('DOMContentLoaded', function() {
 
     const popup = document.querySelector('.popup'),
           popupBtn = document.querySelectorAll('.popup-btn'),
-          widthWindow = document.documentElement.clientWidth;
+          widthWindow = document.documentElement.clientWidth,
+          form3 = popup.querySelector('#form3');
           
 
     popupBtn.forEach((item) => {
@@ -119,6 +120,7 @@ window.addEventListener('DOMContentLoaded', function() {
           popupCloseShow(step);
         } else if (step === 0) {
           popup.style.display = 'none';
+          form3.reset();
         }
 
       });  
@@ -128,11 +130,12 @@ window.addEventListener('DOMContentLoaded', function() {
       let target = event.target;
 
       if (target.classList.contains('popup-close')) {
-        popupCloseShow(1);
+        popupCloseShow(1);  
       } else {
         target = target.closest('.popup-content');
         if (!target) {
-          popup.style.display = 'none';
+          // popup.style.display = 'none';
+          popupCloseShow(1);
         }
       }
     });
@@ -430,8 +433,15 @@ window.addEventListener('DOMContentLoaded', function() {
           body[key] = val;
         });
 
-        const good = () => {
+        const good = (response) => {
+          if (response.status !== 200) {
+            throw new Error('status network not 200');  
+          }
+          console.log(response);
           statusMassage.textContent = successMassage;
+          setTimeout (() => {
+            statusMassage.remove();
+          }, 2000)
         };
 
         const notGood = (error) => {
@@ -452,28 +462,37 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 
     const postData = (body) => {
-      return new Promise((resolve, reject) => {
-        const request = new XMLHttpRequest();
-        request.addEventListener('readystatechange', () => {
-
-          if (request.readyState !== 4) {
-            return;
-          }
-          if (request.status === 200) {
-            resolve();
-          } else {
-            reject(request.status);
-          }
-
-        });
-
-        request.open('POST', './server.php');
-        request.setRequestHeader('Content-Type', 'application/json');
-
-        console.log(body)
-
-        request.send(JSON.stringify(body));
+      return fetch ('./server.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body),
+        credentials: 'include' 
       });
+
+      // return new Promise((resolve, reject) => {
+      //   const request = new XMLHttpRequest();
+      //   request.addEventListener('readystatechange', () => {
+
+      //     if (request.readyState !== 4) {
+      //       return;
+      //     }
+      //     if (request.status === 200) {
+      //       resolve();
+      //     } else {
+      //       reject(request.status);
+      //     }
+
+      //   });
+
+      //   request.open('POST', './server.php');
+      //   request.setRequestHeader('Content-Type', 'application/json');
+
+      //   console.log(body)
+
+      //   request.send(JSON.stringify(body));
+      // });
     }
   };
   sendForm();
