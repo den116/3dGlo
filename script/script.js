@@ -417,25 +417,6 @@ window.addEventListener('DOMContentLoaded', function() {
 
     forms.forEach((form) => {
 
-      // form.addEventListener('input', (event) => {
-        
-      //   const target = event.target,
-      //         inputs = form.querySelectorAll('input');
-              
-
-      //   inputs.forEach((elem) => {
-          
-      //     if( elem.classList.contains('form-name') === target) {
-
-      //         console.log(elem);
-      //         elem.value = elem.value.replace(/[A-z]\d\S/g, '');
-            
-      //     }
-
-      //   });
-
-      // });
-
       form.addEventListener('submit', (event) => {
         event.preventDefault();
         form.appendChild(statusMassage);
@@ -449,15 +430,20 @@ window.addEventListener('DOMContentLoaded', function() {
           body[key] = val;
         });
 
-        postData(body, 
-          () => {
+        const good = () => {
           statusMassage.textContent = successMassage;
-          }, 
-          (error) => {
+        };
+
+        const notGood = (error) => {
           console.log(error);
           statusMassage.textContent = errorMassage;
-          }
-        );
+        };
+
+        postData(body)
+          .then(good)
+          .catch(notGood);
+
+        
 
         form.reset();
   
@@ -465,28 +451,29 @@ window.addEventListener('DOMContentLoaded', function() {
 
     });
 
-    const postData = (body, outputData, errorData) => {
-      const request = new XMLHttpRequest();
-      request.addEventListener('readystatechange', () => {
+    const postData = (body) => {
+      return new Promise((resolve, reject) => {
+        const request = new XMLHttpRequest();
+        request.addEventListener('readystatechange', () => {
 
-        if (request.readyState !== 4) {
-          return;
-        }
-        if (request.status === 200) {
-          outputData();
-        } else {
-          errorData(request.status);
-        }
+          if (request.readyState !== 4) {
+            return;
+          }
+          if (request.status === 200) {
+            resolve();
+          } else {
+            reject(request.status);
+          }
 
+        });
+
+        request.open('POST', './server.php');
+        request.setRequestHeader('Content-Type', 'application/json');
+
+        console.log(body)
+
+        request.send(JSON.stringify(body));
       });
-
-      request.open('POST', './server.php');
-      request.setRequestHeader('Content-Type', 'application/json');
-
-      console.log(body)
-
-      request.send(JSON.stringify(body));
-
     }
   };
   sendForm();
