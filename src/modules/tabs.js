@@ -18,8 +18,8 @@ const tabs = () => {
   
   tabHeader.addEventListener('click', (event) => {
 
-    let target = event.target;
-        target = target.closest('.service-header-tab');
+    let target = event.target.closest('.service-header-tab');
+        
     
       if (target) {
         tab.forEach((item, i) => {

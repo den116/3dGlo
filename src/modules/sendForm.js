@@ -1,10 +1,11 @@
 const sendForm = () => {
 
   const errorMassage = 'Что то пошло не так...',
-        loadMassage = 'Звгрузка...',
+        loadMassage = 'Загрузка...',
         successMassage = 'Спасибо! Мы скоро с вами свяжемся.';
 
-  const forms = document.querySelectorAll('form');
+  const forms = document.querySelectorAll('form'),
+        popup = document.querySelector('.popup');
         
 
   const statusMassage = document.createElement('div');
@@ -30,19 +31,26 @@ const sendForm = () => {
           throw new Error('status network not 200');  
         }
         console.log(response);
+        statusMassage.style.cssText = 'color: green';
         statusMassage.textContent = successMassage;
         setTimeout (() => {
           statusMassage.remove();
           setTimeout (() => {
-            const popup = document.querySelector('.popup');
             popup.style.display = 'none';
-          }, 2000)
-        }, 2000)
+          }, 2000);
+        }, 2000);
       };
 
       const notGood = (error) => {
         console.log(error);
+        statusMassage.style.cssText = 'color: red';
         statusMassage.textContent = errorMassage;
+        setTimeout (() => {
+          statusMassage.remove();
+          setTimeout (() => {
+            popup.style.display = 'none';
+          }, 2000);
+        }, 2000);
       };
 
       postData(body)
@@ -67,28 +75,7 @@ const sendForm = () => {
       credentials: 'include' 
     });
 
-    // return new Promise((resolve, reject) => {
-    //   const request = new XMLHttpRequest();
-    //   request.addEventListener('readystatechange', () => {
-
-    //     if (request.readyState !== 4) {
-    //       return;
-    //     }
-    //     if (request.status === 200) {
-    //       resolve();
-    //     } else {
-    //       reject(request.status);
-    //     }
-
-    //   });
-
-    //   request.open('POST', './server.php');
-    //   request.setRequestHeader('Content-Type', 'application/json');
-
-    //   console.log(body)
-
-    //   request.send(JSON.stringify(body));
-    // });
+    
   }
 };
 

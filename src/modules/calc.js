@@ -28,7 +28,6 @@ const calc = (price = 100) => {
       total = Math.round(price * typeValue * squareValue * countValue * dayValue);
     } 
 
-    // totalValue.textContent = total;
     let count = 0;
 
     const totalAnimate = () => {
@@ -51,9 +50,11 @@ const calc = (price = 100) => {
   calcBlock.addEventListener('change', (event) => {
     const target = event.target;
 
-    calcItems.forEach((elem) => {
-      if (target === elem) {
-        countSum();
+    calcItems.forEach((elem, i) => {
+      if (i > 0) {
+        if (target === elem) {
+          countSum();
+        }
       }
     });
   });

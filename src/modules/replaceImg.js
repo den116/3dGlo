@@ -5,26 +5,15 @@ const replaceImg = () => {
   img.forEach((elem) => {
     let src = elem.getAttribute('src');
         
-    elem.addEventListener('mouseenter', (e) => {
+    elem.addEventListener('mouseenter', (event) => {
       event.target.src = event.target.dataset.img;
     });
 
-    elem.addEventListener('mouseleave', (e) => {
+    elem.addEventListener('mouseleave', (event) => {
       event.target.src = src;
     });
 
   });
-
-  
-  
-  // const change = (step) => {
-  //   requestAnimationFrame(() => {
-  //     if (step < 10) {
-  //       step++;
-
-  //     }
-  //   });
-  // }
 
 };
 
