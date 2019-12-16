@@ -30,7 +30,6 @@ const sendForm = () => {
         if (response.status !== 200) {
           throw new Error('status network not 200');  
         }
-        console.log(response);
         statusMassage.style.cssText = 'color: green';
         statusMassage.textContent = successMassage;
         setTimeout (() => {
@@ -42,7 +41,6 @@ const sendForm = () => {
       };
 
       const notGood = (error) => {
-        console.log(error);
         statusMassage.style.cssText = 'color: red';
         statusMassage.textContent = errorMassage;
         setTimeout (() => {
@@ -76,7 +74,7 @@ const sendForm = () => {
     });
 
     
-  }
+  };
 };
 
 export default sendForm;

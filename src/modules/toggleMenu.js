@@ -9,13 +9,11 @@ const toggleMenu = () => {
 
   btnMenu.addEventListener('click', handlerMenu);
   menu.addEventListener('click', (event) => {
+    let target = event.target;
 
-    if  (event.target.tagName === 'A' || event.target.classList.contains('close-btn')) {
+    if  (target.tagName === 'A' || target.classList.contains('close-btn')) {
       handlerMenu();
     }
-
-    let target = event.target;
-    console.log(target);
     
   });
 

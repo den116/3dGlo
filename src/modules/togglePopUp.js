@@ -57,7 +57,6 @@ const togglePopUp = () => {
     } else {
       target = target.closest('.popup-content');
       if (!target) {
-        // popup.style.display = 'none';
         popupCloseShow(1);
       }
     }

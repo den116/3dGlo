@@ -5,7 +5,7 @@ const slider = () => {
         btn = document.querySelectorAll('.portfolio-btn'),
         parentDot = document.querySelector('.portfolio-dots');
     let dot = document.querySelectorAll('.dot');
-        console.log(dot);
+
 
   const addDot = () => {
 

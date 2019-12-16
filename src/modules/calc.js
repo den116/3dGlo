@@ -39,7 +39,6 @@ const calc = (price = 100) => {
           totalValue.textContent = count;
           totalAnimate();
         } 
-        console.log(count);
       });
     };
 
